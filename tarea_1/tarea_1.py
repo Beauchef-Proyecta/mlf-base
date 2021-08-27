@@ -12,10 +12,10 @@ class CartesianRobot:
         self.current_position[1] = y
 
     def draw_line_to(self, x1, y1):
-        #
-        plt.plot(self.current_position, [x1, y1])
-        self.current_position[0] = x1
-        self.current_position[1] = y1
+        x_axes = [self.current_position[0], x1]
+        y_axes = [self.current_position[1], y1]
+        plt.plot(x_axes, y_axes)
+        self.move_to(x1, y1)
 
     def draw_square(self, side=1):
         """ Dibuja un cuadrado de lado 'side' con una esquina en la posición actual del robot """
@@ -36,6 +36,10 @@ class CartesianRobot:
 
 def main():
     robot = CartesianRobot()
+    robot.move_to(0, 0)
+    robot.draw_line_to(1, 1)
+    robot.draw_line_to(2, 2)
+    robot.draw_line_to(5, 2)
     robot.draw_square()
     robot.draw_circle()
     plt.show()
