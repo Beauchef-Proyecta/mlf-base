@@ -1,17 +1,17 @@
 # Tareas del curso CD2201 - My Little Factory
 
-## Instalación de herramientas para las tareas
+## Organización del contenido
 
-### Instalar Python 3.7.3
+Cada tarea está alojada en la carpeta con su numero correspondiente y contiene todos los archivos y paquetes necesarios para realizar la actividad de la semana.
 
-Es muy importante que cuentes con esta versión de Python. Para instalarla, puedes elegir en esta página aquella que sea compatible con tu sistema operativo:
+Durante este semestre, la tarea de cada semana se habilitará durante el horario de clases.
 
-[Python Release Python 3.7.3](https://www.python.org/downloads/release/python-373/)
+## Software necesario
 
-### Instalar PyCharm Community Edition
+El material del curso está hecho para correr en Python 3.7.3. Puede que sea compatible con otras versiones, pero sugerimos usar la versión 3.7.3 para tener la certea de que no habrán problemas.
 
-PyCharm es un "entorno de desarrollo integrado" (*IDE*, por sus siglas en inglés). Se parece mucho a *IDLE*, que es el *IDE* por defecto de Python, pero además añade la posibilidad de ver todos los archivos de un proyecto, además de poder configurar "ambientes" para manejar siempre la misma versión de cada módulo adicional que usaremos dentro del curso.
+Adicionalmente, sugerimos usar PyCharmo Community Edition si no se es familiar con el uso de terminal para crear ambientes virtuales y/o instalar paquetes con `pip`. 
 
-Para instalarlo deber ir al sitio de descarga y bajar la versión que te recomiende según tu sistema operativo:
+Las instrucciones para instalar las herramientas sugeridas del curso están en [la wiki de este repositorio](https://github.com/Beauchef-Proyecta/mlf-base/wiki/Instalaci%C3%B3n-de-Herramientas-de-Software).
 
-[Descargar PyCharm: el IDE de Python para desarrolladores profesionales, por JetBrains](https://www.jetbrains.com/es-es/pycharm/download/)
+
