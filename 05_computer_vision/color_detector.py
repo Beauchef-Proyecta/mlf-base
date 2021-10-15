@@ -22,15 +22,10 @@ class ColorDetector:
         self.draw_contours(threshold)
 
     def mask_image(self, lower_color, upper_color):
-        img = np.copy(self.img)
-        self.mask = cv2.inRange(img, lower_color, upper_color)
-        self.img_masked = cv2.bitwise_and(img, img, mask=self.mask)
+        print("Implementame :c")
 
     def filter_image(self, kernel):
-        # https://docs.opencv.org/trunk/d9/d61/tutorial_py_morphological_ops.html
-        img = self.img_masked
-        self.img_eroded = cv2.erode(img, kernel)
-        self.img_dilated = cv2.dilate(img, kernel)
+        print("Implementame :c")
 
     def draw_contours(self, threshold):
         """
@@ -45,15 +40,6 @@ class ColorDetector:
         Para mas info, consultar
         https://learnopencv.com/contour-detection-using-opencv-python-c/
         """
-
-        self.img_gray = cv2.cvtColor(self.img_eroded, cv2.COLOR_RGB2GRAY)
-
-        ret, self.img_threshold = cv2.threshold(self.img_eroded, threshold, 255, cv2.THRESH_TRUNC)
-
-        contours, hierarchy = cv2.findContours(self.img_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-        self.img_contoured = self.img.copy()
-        cv2.drawContours(self.img_contoured, contours, -1, color=(0, 255, 0), thickness=4)
 
     def draw_bounding_boxes(self):
         """

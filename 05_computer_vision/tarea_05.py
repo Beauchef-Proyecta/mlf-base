@@ -16,22 +16,24 @@ def main():
     ax[0, 0].imshow(c.img)
 
     # Calculamos la mascara y la aplicamos
-    lower_color = np.array([100, 0, 0])
-    upper_color = np.array([200, 255, 255])
+    # deben encontrar limites adecuados para el color que les interese
+    lower_color = np.array([0, 0, 0])
+    upper_color = np.array([360, 255, 255])
 
     c.mask_image(lower_color, upper_color)
     ax[0, 1].imshow(c.mask, cmap='gray')
     ax[0, 2].imshow(c.img_masked)
 
     # Se aplican operaciones morfológicas para reducir el ruido
-    kernel = np.ones((20, 20), np.uint8)
+    kernel = np.ones((20, 20), np.uint8)  # deben encontrar un tamañ de kernel adecuado
 
     c.filter_image(kernel=kernel)
     ax[1, 0].imshow(c.img_eroded)
     ax[1, 1].imshow(c.img_dilated)
 
-    # Busqueda de contornos
-    c.draw_contours(threshold=180)
+    # Busqueda de contornos;
+    umbral = 50     # deben encontrar un valor adecuado
+    c.draw_contours(threshold=umbral)
     ax[2, 0].imshow(c.img_gray, cmap='gray')
     ax[2, 1].imshow(c.img_threshold, cmap='gray')
     ax[2, 2].imshow(c.img_contoured)
@@ -44,6 +46,8 @@ def main():
     plt.gcf().canvas.mpl_connect("key_press_event", close)
     """ FIN OBS """
 
+    # Dejamos en blanco el subplot [1, 2]
+    ax[1, 2].axis('off')
     # Esta linea es muy importante: es la que "abre" la ventana de los graficos
     plt.show()
 
