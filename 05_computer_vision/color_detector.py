@@ -12,6 +12,7 @@ class ColorDetector:
         self.img_masked = np.zeros(img.shape)
         self.img_eroded = np.zeros(img.shape)
         self.img_dilated = np.zeros(img.shape)
+        self.img_filtered = np.zeros(img.shape)
         self.img_gray = np.zeros(img.shape)
         self.img_threshold = np.zeros(img.shape)
         self.img_contoured = np.zeros(img.shape)
@@ -22,24 +23,26 @@ class ColorDetector:
         self.draw_contours(threshold)
 
     def mask_image(self, lower_color, upper_color):
-        print("Implementame :c")
+        print("mask_image: implementame :c")
 
     def filter_image(self, kernel):
-        print("Implementame :c")
+        print("filter_image: implementame :c")
+
 
     def draw_contours(self, threshold):
         """
         Para hacer esta función se deben seguir los siguientes pasos:
         1. convertir una imagen filtrada a escala de grises
-        2. aplicar un umbral (threshhold). Se sugiere truncado: type=cv2.THRESH_TRUNC
+        2. aplicar un umbral (threshold). Se sugiere truncado: type=cv2.THRESH_TRUNC
         3. usar la funcion cv2.findContours:
             contours, hierarchy = cv2.finContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         4. copiar la imagen original
         5. usar cv2.drawContours(img, contours, -1, color=(0, 255,0), thickness=4)
-
         Para mas info, consultar
         https://learnopencv.com/contour-detection-using-opencv-python-c/
         """
+        print("draw_contours: implementame :c")
+
 
     def draw_bounding_boxes(self):
         """
@@ -61,3 +64,4 @@ class ColorDetector:
         argumentos.
 
         """
+        print("draw_bounding_boxes: implementame :c")

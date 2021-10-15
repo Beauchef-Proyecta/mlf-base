@@ -5,7 +5,7 @@ from color_detector import ColorDetector
 
 
 def main():
-    img_path = 'images/arcoiris.jpg'
+    img_path = 'images/ponies.jpg'
     img_bgr = cv2.imread(img_path)
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
 
@@ -17,19 +17,20 @@ def main():
 
     # Calculamos la mascara y la aplicamos
     # deben encontrar limites adecuados para el color que les interese
-    lower_color = np.array([0, 0, 0])
-    upper_color = np.array([360, 255, 255])
+    lower_color = np.array([100, 0, 0])
+    upper_color = np.array([200, 255, 200])
 
     c.mask_image(lower_color, upper_color)
     ax[0, 1].imshow(c.mask, cmap='gray')
     ax[0, 2].imshow(c.img_masked)
 
     # Se aplican operaciones morfológicas para reducir el ruido
-    kernel = np.ones((20, 20), np.uint8)  # deben encontrar un tamañ de kernel adecuado
+    kernel = np.ones((10, 10), np.uint8)  # deben encontrar un tamañ de kernel adecuado
 
     c.filter_image(kernel=kernel)
     ax[1, 0].imshow(c.img_eroded)
     ax[1, 1].imshow(c.img_dilated)
+    ax[1, 2].imshow(c.img_filtered)
 
     # Busqueda de contornos;
     umbral = 50     # deben encontrar un valor adecuado
@@ -46,8 +47,6 @@ def main():
     plt.gcf().canvas.mpl_connect("key_press_event", close)
     """ FIN OBS """
 
-    # Dejamos en blanco el subplot [1, 2]
-    ax[1, 2].axis('off')
     # Esta linea es muy importante: es la que "abre" la ventana de los graficos
     plt.show()
 
