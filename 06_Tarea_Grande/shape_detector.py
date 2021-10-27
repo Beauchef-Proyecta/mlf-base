@@ -27,7 +27,7 @@ class ShapeDetector:
         self.filter_image()
         self.draw_contours()
 
-    def filter_image(self, kernel=(5,5)):
+    def filter_image(self, kernel=(15, 15)):
         img = np.copy(self.img_gray)
         self.img_gaus = cv2.GaussianBlur(img, kernel, 0)
 
@@ -42,30 +42,31 @@ class ShapeDetector:
         el_mas_grande = max(self.contours, key=cv2.contourArea)
         self.img_contoured = cv2.drawContours(img2, el_mas_grande, 1, (0,255,0), 2)
 
-        print("Se detectan ", len(self.contours), " contornos")
+        #print("Se detectan ", len(self.contours), " contornos")
 
     def whichFigure(self):
         #queria que sobre la figura con los contornos verdes pusiera los nombre pero no me resulta:(
         self.img_text = np.copy(self.img_contoured) 
 
         for c in self.contours:
-            porc = 0.02 #a prueba y error
+            var = 0
+            porc = 0.05 #a prueba y error
             epsilon = porc * cv2.arcLength(c,True)
             approx = cv2.approxPolyDP(c,epsilon,True)
             x,y,w,h = cv2.boundingRect(approx) #w y h son para diferenciar un rectangulo de un cuadrado
 
             # aqui hay que poner otro condicional por si detecta 2 figuras en la misma imagen, eso debe ser otra var
             if len(approx)==3:
-                cv2.putText(self.img_text,'Triangulo', (x,y-5),1,1.5,(0,255,0),2)
+                #cv2.putText(self.img_text,'Triangulo', (x,y-5),1,1.5,(0,255,0),2)
                 var = 3
             if len(approx)==4:
-                cv2.putText(self.img_text,'Cuadrado', (x,y-5),1,1.5,(0,255,0),2)
+                #cv2.putText(self.img_text,'Cuadrado', (x,y-5),1,1.5,(0,255,0),2)
                 var = 4
             if len(approx)==5:
-                cv2.putText(self.img_text,'Pentagono', (x,y-5),1,1.5,(0,255,0),2)
+                #cv2.putText(self.img_text,'Pentagono', (x,y-5),1,1.5,(0,255,0),2)
                 var = 5
             if len(approx)==6:
-                cv2.putText(self.img_text,'Hexagono', (x,y-5),1,1.5,(0,255,0),2)
+                #cv2.putText(self.img_text,'Hexagono', (x,y-5),1,1.5,(0,255,0),2)
                 var = 6
-
+        #print(var)
         return var

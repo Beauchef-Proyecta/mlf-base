@@ -37,9 +37,9 @@ class Plotter():
         
         
         plt.draw()
-        plt.pause(0.01)
+        plt.pause(0.05)
         dt = datetime.datetime.now() - ti
-        print(dt)
+        #print(dt)
     
     def plot_robot(self, X_pos, Y_pos, Z_pos):
         # Clear figure

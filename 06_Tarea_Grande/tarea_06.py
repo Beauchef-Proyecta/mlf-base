@@ -11,7 +11,7 @@ from mk2robot import MK2Robot
 
 def main():
 
-    vid = cv2.VideoCapture(2)
+    vid = cv2.VideoCapture(0)
     sd = ShapeDetector()
     plotter = Plotter()
     manager = Manager()

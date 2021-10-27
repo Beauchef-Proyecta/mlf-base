@@ -10,7 +10,6 @@ class Manager:
     def decide_what_to_do(self, shape):
         shape = str(shape)
         if shape not in self.moves:
-            print("no sé qué hacer :c")
+            #print("no sé qué hacer :c")
             return
-        
         return self.moves[shape]
