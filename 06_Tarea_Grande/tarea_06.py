@@ -30,11 +30,17 @@ def main():
 
    
     ax[0, 0].imshow(c.img)
+    ax[0, 0].axis("off")
     ax[0, 1].imshow(c.img_gray, cmap='gray')
-    ax[0, 2].imshow(c.img_eroded)
+    ax[0, 1].axis("off")
+    ax[0, 2].imshow(c.img_eroded, cmap='gray')
+    ax[0, 2].axis("off")
     ax[1, 0].imshow(c.img_contoured)
+    ax[1, 0].axis("off")
     ax[1, 1].imshow(c.img_text)
+    ax[1, 1].axis("off")
     ax[1, 2].imshow(c.img_text) #no se que otra figura mostrar:$
+    ax[1, 2].axis("off")
 
     """ OBS: Fsta función permite poder cerrar la venta apretando la tecla q """
     def close(event):
