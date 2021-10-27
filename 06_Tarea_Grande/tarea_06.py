@@ -1,70 +1,50 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-from figureDetector import FigureDetector
+from shape_detector import ShapeDetector
+from plotter import Plotter
 
-def captureFrame():
-    # define a video capture object
-    vid = cv2.VideoCapture(0)
 
-    while (True):
-        # Capture the video frame by frame
-        ret, frame = vid.read()
-        # Display the resulting frame
-        cv2.imshow('Captura tu figurita', frame)
-        # the 'q' button is set as the quitting button you may use any desired button of your choice
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
 
-    return frame
 
 def main():
-    frame = captureFrame()
-    fig, ax = plt.subplots(2,3)
 
-    # Imagen original
-    c = FigureDetector(frame)
-    c.process_image()
-    c.draw_contours()
-    fg = c.whichFigure()
+    vid = cv2.VideoCapture(2)
+    plotter = Plotter()
 
-   
-    ax[0, 0].imshow(c.img)
-    ax[0, 0].axis("off")
-    ax[0, 1].imshow(c.img_gray, cmap='gray')
-    ax[0, 1].axis("off")
-    ax[0, 2].imshow(c.img_eroded, cmap='gray')
-    ax[0, 2].axis("off")
-    ax[1, 0].imshow(c.img_contoured)
-    ax[1, 0].axis("off")
-    ax[1, 1].imshow(c.img_text)
-    ax[1, 1].axis("off")
-    ax[1, 2].imshow(c.img_text) #no se que otra figura mostrar:$
-    ax[1, 2].axis("off")
+    while plotter.is_enabled:
+    # Capturar imagen
+        ret, frame = vid.read()
 
-    """ OBS: Fsta función permite poder cerrar la venta apretando la tecla q """
-    def close(event):
-        if event.key == 'q':
-            plt.close(event.canvas.figure)
+        # Procesar
+        c = ShapeDetector(frame)
+        c.process_image()
+        c.draw_contours()
+        fg = c.whichFigure()
 
-    plt.gcf().canvas.mpl_connect("key_press_event", close)
-    """ FIN OBS """
+        # Decidir
+        #Condicionales para mover el robot
+        if fg == 3:
+            print('Mover robot derecha')
+            
+        if fg == 4:
+            print('Mover robot izquierda')
+            
+        if fg == 6:
+            print('Mover robot arriba')
 
-    # Esta linea es muy importante: es la que "abre" la ventana de los graficos
-    plt.show()
+        if fg == 5:
+            print('Mover robot abajo')
 
-    #Condicionales para mover el robot
-    if fg == 3:
-        print('Mover robot derecha')
-        
-    if fg == 4:
-        print('Mover robot izquierda')
-        
-    if fg == 6:
-        print('Mover robot arriba')
+        # Actuar
 
-    if fg == 5:
-        print('Mover robot abajo')
+        # Mostrar resultado
+        plotter.update([c.img, c.img_contoured])
+    
+
+    vid.release()
+    cv2.destroyAllWindows()
+
 
 if __name__ == '__main__':
     main()

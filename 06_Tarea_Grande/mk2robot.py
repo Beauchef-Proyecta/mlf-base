@@ -111,23 +111,7 @@ class MK2Robot:
             ser.write(('&4:' + angleData).encode())
             time.sleep(0.02)
 
-    def run_serial(self, COM):
-        # BLOQUE SERIAL
-        global ser
-        ser = serial
-        try:
-            ser = serial.Serial(str(COM), 115200, timeout=1)  # ojito con la ruta
-            # ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=1)
-            serial_port = "Open"
-            print("The port is available")
-
-        except serial.serialutil.SerialException:
-            print("The port is at use")
-            ser.close()
-            ser.open()
-        # BLOQUE SERIAL
-
-    def get_joint_positions(self):
+    def current_joint_positions(self):
         """Este método entrega las coordenadas de cada joint en tres listas; es para que el codigo se vea mas limpio :)"""
         X_pos = np.zeros(4)
         Y_pos = np.zeros(4)

@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-class FigureDetector:
+class ShapeDetector:
     def __init__(self, img):
-        self.img = img
+        self.img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.img_eroded = np.zeros(img.shape)
         self.img_dilated = np.zeros(img.shape)
         self.img_gray = np.zeros(img.shape)
@@ -16,7 +16,7 @@ class FigureDetector:
     #puse muchos copy, tal vez alguno esta de mas
     def process_image(self, kernel=5):
         img = np.copy(self.img)
-        self.img_gray= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        self.img_gray= cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         self.filter_image(kernel)
         self.draw_contours()
 
