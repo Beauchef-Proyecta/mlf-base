@@ -3,6 +3,8 @@ import cv2
 import matplotlib.pyplot as plt
 from shape_detector import ShapeDetector
 from plotter import Plotter
+from decision import Manager
+from mk2robot import MK2Robot
 
 
 
@@ -10,36 +12,29 @@ from plotter import Plotter
 def main():
 
     vid = cv2.VideoCapture(2)
+    sd = ShapeDetector()
     plotter = Plotter()
+    manager = Manager()
+    robot = MK2Robot(link_lengths=[55, 39, 135, 147, 66.3])
 
-    while plotter.is_enabled:
-    # Capturar imagen
-        ret, frame = vid.read()
+    while plotter.is_enabled():
+        
+        # Capturar imagen
+        _, frame = vid.read()
 
         # Procesar
-        c = ShapeDetector(frame)
-        c.process_image()
-        c.draw_contours()
-        fg = c.whichFigure()
-
+        sd.update_image(frame)
+        sd.process_image()
+        shape = sd.whichFigure()
         # Decidir
-        #Condicionales para mover el robot
-        if fg == 3:
-            print('Mover robot derecha')
-            
-        if fg == 4:
-            print('Mover robot izquierda')
-            
-        if fg == 6:
-            print('Mover robot arriba')
-
-        if fg == 5:
-            print('Mover robot abajo')
-
+        command = manager.decide_what_to_do(shape)
         # Actuar
+        robot.execute(command)
 
         # Mostrar resultado
-        plotter.update([c.img, c.img_contoured])
+        processed_image = sd.img_contoured
+        robot_pose = robot.current_joint_positions()
+        plotter.update(img=processed_image, robot=robot_pose)
     
 
     vid.release()

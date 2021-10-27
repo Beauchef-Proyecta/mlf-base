@@ -1,9 +1,13 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import datetime
 
 class ShapeDetector:
-    def __init__(self, img):
+    def __init__(self):
+        self.img = None
+
+    def update_image(self, img):
         self.img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.img_eroded = np.zeros(img.shape)
         self.img_dilated = np.zeros(img.shape)
@@ -14,15 +18,18 @@ class ShapeDetector:
         self.contours = 0 #guarda los datos de los contornos
 
     #puse muchos copy, tal vez alguno esta de mas
-    def process_image(self, kernel=5):
+    def process_image(self):
+        if self.img is None:
+            raise AttributeError("ShapeDetector 'No tengo una imagen para trabajar:c'" )
+
         img = np.copy(self.img)
         self.img_gray= cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-        self.filter_image(kernel)
+        self.filter_image()
         self.draw_contours()
 
-    def filter_image(self, kernel):
+    def filter_image(self, kernel=(5,5)):
         img = np.copy(self.img_gray)
-        self.img_gaus = cv2.GaussianBlur(img, (kernel, kernel), 0)
+        self.img_gaus = cv2.GaussianBlur(img, kernel, 0)
 
         self.img_canny = cv2.Canny(self.img_gaus, 10, 150)
         self.img_dilated = cv2.dilate(self.img_canny, None, iterations=1)
@@ -32,7 +39,8 @@ class ShapeDetector:
         img = np.copy(self.img_eroded)
         img2 = np.copy(self.img)
         self.contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self.img_contoured = cv2.drawContours(img2, self.contours, -1, (0,255,0), 2)
+        el_mas_grande = max(self.contours, key=cv2.contourArea)
+        self.img_contoured = cv2.drawContours(img2, el_mas_grande, 1, (0,255,0), 2)
 
         print("Se detectan ", len(self.contours), " contornos")
 

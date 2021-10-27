@@ -93,24 +93,6 @@ class MK2Robot:
         q2 = np.round(q2_rad * 180 / np.pi, 0)
         return [q0, q1, q2]
 
-    def forward_kinematics(self, ang, q0=False, q1=False, q2=False, q3=False):
-        if q0:
-            angleData = str(int(abs(2 * ang)))
-            ser.write(('&1:' + angleData).encode())
-            time.sleep(0.02)
-        elif q1:
-            angleData = str(int(abs(ang)))
-            ser.write(('&2:' + angleData).encode())
-            time.sleep(0.02)
-        elif q2:
-            angleData = str(int(abs(ang)))
-            ser.write(('&3:' + angleData).encode())
-            time.sleep(0.02)
-        elif q3:
-            angleData = str(int(abs(ang)))
-            ser.write(('&4:' + angleData).encode())
-            time.sleep(0.02)
-
     def current_joint_positions(self):
         """Este método entrega las coordenadas de cada joint en tres listas; es para que el codigo se vea mas limpio :)"""
         X_pos = np.zeros(4)
@@ -123,3 +105,9 @@ class MK2Robot:
             Z_pos[i] = np.round(self.pose[i][2, 3], 3)
 
         return [X_pos, Y_pos, Z_pos]
+
+    def execute(self, command=None):
+        if not command:
+            return
+        
+        print(command)
