@@ -1,12 +1,11 @@
-import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import numpy as np
+
 from shape_detector import ShapeDetector
-from plotter import Plotter
 from decision import Manager
 from mk2robot import MK2Robot
-
-
+from plotter import Plotter
 
 
 def main():
@@ -20,7 +19,6 @@ def main():
     3. manager: implementa una "estrategia" según lo que se detecta y genera una instrucción (command) para que el robot la ejecute
     4. robot: recibe la instrucción y la ejecuta (por sus propios medios)
     5. plotter: muestra lo que está pasando. No es esencial para el funcionamiento, pero nos permite a les humanes cachar qué está pasando o.o
-
     """
     camera = cv2.VideoCapture(2)    # Usar la que tengan disponible en su pc; por defecto es 0
     detector = ShapeDetector()
@@ -50,7 +48,7 @@ def main():
         plotter.update(img=processed_image, robot=robot_pose)
     
     # Una vez que se cierra el plot, se destruye todo para tener una salida limpia :)
-    vid.release()
+    camera.release()
     cv2.destroyAllWindows()
 
 
