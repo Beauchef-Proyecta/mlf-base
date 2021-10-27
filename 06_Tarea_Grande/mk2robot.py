@@ -1,9 +1,9 @@
 import numpy as np
+import random
+
 from transformations import translation_along_zaxis, \
     rotation_around_zaxis, \
     rotation_around_yaxis
-import serial
-import time
 
 
 class MK2Robot:
@@ -16,6 +16,7 @@ class MK2Robot:
         self.q = []
         self.T = []
         self.pose = []
+        self.xyz = []
         self.update_pose(MK2Robot.HOME_0, MK2Robot.HOME_1, MK2Robot.HOME_2)
 
     def update_pose(self, q0, q1, q2):
@@ -33,6 +34,11 @@ class MK2Robot:
         self.pose[1] = np.linalg.multi_dot([self.pose[0], self.R[1], self.T[2]])
         self.pose[2] = np.linalg.multi_dot([self.pose[1], self.R[2], self.T[3]])
         self.pose[3] = np.linalg.multi_dot([self.pose[2], self.R[3], self.T[4]])
+
+        x = np.round(self.pose[3][0, 3], 3)
+        y = np.round(self.pose[3][0, 3], 3)
+        z = np.round(self.pose[3][0, 3], 3)
+        self.xyz = [x, y, z]
 
     def _update_transformation_matrices(self, q0, q1, q2):
         """
@@ -110,4 +116,10 @@ class MK2Robot:
         if not command:
             return
         
+        r = random.randint(-10, 10)
+
+        q = self.inverse_kinematics(self.xyz[0]+r, self.xyz[1]+r, self.xyz[2]+r)
+        self.update_pose(q[0], q[1], q[2])
+        print(self.xyz)
+
         print(command)
