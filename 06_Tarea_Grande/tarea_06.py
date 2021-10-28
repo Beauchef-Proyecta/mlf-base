@@ -10,7 +10,7 @@ from plotter import Plotter
 
 def main():
 
-    """ [Inicialización]
+    """ [1. Inicialización]
     Todo sistema de robots tiene varios subsistemas, cada cual con una responsabilidad única
     y funcionan de manera coordinada.
     En este caso, tenemos 5 sub-sistemas:
@@ -26,6 +26,17 @@ def main():
     robot = MK2Robot(link_lengths=[55, 39, 135, 147, 66.3])
     plotter = Plotter()
 
+
+
+    """ [2. Loop Infinito]
+    Teniendo los objetos inicializados, mientras Plotter esté activado (plotter.is_enabled() == True), 
+    el programa hará lo siguiente:
+    1. Capturar una imagen
+    2. Procesarla
+    3. Decidir qué debe hacer el robot
+    4. Ejecuta la acción
+    5. Mostrar el resultado en un entorno de simulación
+    """
     while plotter.is_enabled():
         
         # 1. Capturar imagen
