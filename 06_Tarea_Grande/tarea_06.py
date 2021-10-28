@@ -20,7 +20,7 @@ def main():
     4. robot: recibe la instrucción y la ejecuta (por sus propios medios)
     5. plotter: muestra lo que está pasando. No es esencial para el funcionamiento, pero nos permite a les humanes cachar qué está pasando o.o
     """
-    camera = cv2.VideoCapture(2)    # Usar la que tengan disponible en su pc; por defecto es 0
+    camera = cv2.VideoCapture(2)  # Usar la que tengan disponible en su pc; por defecto es 0
     detector = ShapeDetector()
     manager = Manager()
     robot = MK2Robot(link_lengths=[55, 39, 135, 147, 66.3])
