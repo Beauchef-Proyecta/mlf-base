@@ -17,8 +17,7 @@ class ShapeDetector:
         self.img_filtered = np.zeros(img.shape)
         self.img_gray = np.zeros(img.shape)
         self.img_gaus = np.zeros(img.shape)
-        self.img_contoured = np.zeros(img.shape)
-        self.img_text = np.zeros(img.shape)
+        self.img_canny= np.zeros(img.shape)
         self.contours = 0 #guarda los datos de los contornos
 
     def process_image(self):
@@ -48,8 +47,6 @@ class ShapeDetector:
             if cv2.contourArea(c) > 10000:
                 relevant_contours.append(c)
         self.contours = relevant_contours
-    
-        self.img_contoured = cv2.drawContours(self.img, self.contours, -1, (0,255,0), 2)
 
         print("Se ha(n) detectado ", len(self.contours), " contorno(s)")
 
