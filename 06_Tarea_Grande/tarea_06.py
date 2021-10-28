@@ -37,13 +37,13 @@ def main():
         shape = detector.whichFigure()
         
         # 3. Decidir
-        command = manager.decide_what_to_do(shape)
+        command, text = manager.decide_what_to_do(shape)
         
         # 4. Actuar
-        robot.execute(command)
+        robot.execute(command, text)
 
         # 5. Mostrar resultado
-        processed_image = detector.img_contoured
+        processed_image = detector.img
         robot_pose = robot.current_joint_positions()
         plotter.update(img=processed_image, robot=robot_pose)
     

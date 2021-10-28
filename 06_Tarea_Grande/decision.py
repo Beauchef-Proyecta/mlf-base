@@ -10,7 +10,6 @@ class Manager:
     def decide_what_to_do(self, shape):
         shape = str(shape)
         if shape not in self.commands:
-            print("no sé qué hacer :c")
-            return
+            return None, "no sé qué hacer :c"            
         
-        return self.commands[shape]
+        return shape, self.commands[shape]

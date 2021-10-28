@@ -8,15 +8,18 @@ from transformations import translation_along_zaxis, \
 
 class MK2Robot:
     HOME_0 = 0
-    HOME_1 = np.pi
-    HOME_2 = np.pi
+    HOME_1 = 0
+    HOME_2 = 90
 
     def __init__(self, link_lengths):
         self.a = link_lengths
         self.q = []
         self.T = []
         self.pose = []
-        self.xyz = []
+
+        self.command_action = {"3": self.move_right,
+                                "4": self.move_left}
+
         self.update_pose(MK2Robot.HOME_0, MK2Robot.HOME_1, MK2Robot.HOME_2)
 
     def update_pose(self, q0, q1, q2):
@@ -35,10 +38,6 @@ class MK2Robot:
         self.pose[2] = np.linalg.multi_dot([self.pose[1], self.R[2], self.T[3]])
         self.pose[3] = np.linalg.multi_dot([self.pose[2], self.R[3], self.T[4]])
 
-        x = np.round(self.pose[3][0, 3], 3)
-        y = np.round(self.pose[3][0, 3], 3)
-        z = np.round(self.pose[3][0, 3], 3)
-        self.xyz = [x, y, z]
 
     def _update_transformation_matrices(self, q0, q1, q2):
         """
@@ -76,28 +75,7 @@ class MK2Robot:
         self.R.append(rotation_around_yaxis(angulo_rotacion_l3))
 
         # Link 5
-        self.T.append(translation_along_zaxis(self.a[4]))
-
-    def inverse_kinematics(self, x, y, z):
-        # link_lengths=[55, 39, 135, 147, 66.3]
-        l3 = 66.3
-        l2 = 147
-        l1 = 135
-        z0 = 94
-
-        q0_rad = np.arctan(y / x)
-        q2_rad = np.arccos(((l1 * np.cos(q0_rad)) ** 2 + (l2 * np.cos(q0_rad)) ** 2 - (x - l3 * np.cos(q0_rad)) ** 2 - (
-                z - z0) ** 2) / (2 * l1 * l2 * (np.cos(q0_rad)) ** 2))
-        q1_rad = -np.arctan((x - l3 * np.cos(q0_rad)) / (z - z0)) + np.arccos(((l1 * np.cos(q0_rad)) ** 2 + (
-                x - l3 * np.cos(q0_rad)) ** 2 + (z - z0) ** 2 - (l2 * np.cos(q0_rad)) ** 2) / (2 * l1 * np.cos(
-            q0_rad) * np.sqrt(x ** 2 + z ** 2)))
-        if z < 94:  # Experimentalmente funciona :)
-            q1_rad = q1_rad - np.pi
-
-        q0 = np.round(q0_rad * 180 / np.pi, 0)
-        q1 = np.round(q1_rad * 180 / np.pi, 0)
-        q2 = np.round(q2_rad * 180 / np.pi, 0)
-        return [q0, q1, q2]
+        self.T.append(translation_along_zaxis(self.a[4])) 
 
     def current_joint_positions(self):
         """Este método entrega las coordenadas de cada joint en tres listas; es para que el codigo se vea mas limpio :)"""
@@ -112,14 +90,22 @@ class MK2Robot:
 
         return [X_pos, Y_pos, Z_pos]
 
-    def execute(self, command=None):
+    def execute(self, command=None, text=None):
         if not command:
             return
         
-        r = random.randint(-10, 10)
+        if command not in self.command_action:
+            print("sorry no sé que tengo que hacer")
+            return
 
-        q = self.inverse_kinematics(self.xyz[0]+r, self.xyz[1]+r, self.xyz[2]+r)
-        self.update_pose(q[0], q[1], q[2])
-        print(self.xyz)
+        self.command_action[command]()
+        print(text)
+        
+    def move_right(self):
+        q_deg = np.multiply(self.q, 180 / np.pi)
 
-        print(command)
+        self.update_pose(q_deg[0]-5, q_deg[1], q_deg[2])
+
+    def move_left(self):
+        q_deg = np.multiply(self.q, 180 / np.pi)
+        self.update_pose(q_deg[0]+5, q_deg[1], q_deg[2])
