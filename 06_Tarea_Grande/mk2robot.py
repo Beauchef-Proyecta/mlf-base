@@ -17,10 +17,38 @@ class MK2Robot:
         self.T = []
         self.pose = []
 
+        # Cada commando se asocia con un método de esta clase. Cada método ejecuta un tipo de movimiento
         self.command_action = {"3": self.move_right,
                                 "4": self.move_left}
 
         self.update_pose(MK2Robot.HOME_0, MK2Robot.HOME_1, MK2Robot.HOME_2)
+
+    """ ESTA ES LA PARTE NUEVA EN ESTA TAREA"""
+    def execute(self, command=None, text=None):
+        if not command:
+            return
+        
+        if command not in self.command_action:
+            print("MK2Robot: 'Recibí un comando, pero no sé que tengo que hacer'")
+            return
+
+        # Si se recibe un comando, se ejecuta la función a la que está mapeada (ojo con los paréntesis al final)
+        self.command_action[command]()
+        print(text)
+        
+    def move_left(self):
+        """ Toma la posición actual y gira 5 grados hacia la izquierda"""
+        q_deg = np.multiply(self.q, 180 / np.pi)
+        self.update_pose(q_deg[0]+5, q_deg[1], q_deg[2])
+
+    def move_right(self):
+        """ Toma la posición actual y gira 5 grados hacia la derecha"""
+        q_deg = np.multiply(self.q, 180 / np.pi)
+        self.update_pose(q_deg[0]-5, q_deg[1], q_deg[2])
+
+
+    """ FIN DE LA PARTE NUEVA """
+
 
     def update_pose(self, q0, q1, q2):
         """
@@ -28,7 +56,7 @@ class MK2Robot:
         resultado para cada link como un elemento del arreglo self.pose
         """
         # Calcula las matrices T y Q
-        self._update_transformation_matrices(q0, q1, q2)
+        self.calculate_transformation_matrices(q0, q1, q2)
 
         # re-escribe self.pose como una lista de 4 matrices nulas
         self.pose = [np.zeros((4, 4))] * 4
@@ -39,7 +67,7 @@ class MK2Robot:
         self.pose[3] = np.linalg.multi_dot([self.pose[2], self.R[3], self.T[4]])
 
 
-    def _update_transformation_matrices(self, q0, q1, q2):
+    def calculate_transformation_matrices(self, q0, q1, q2):
         """
         Este método calcula las matrices de rotación traslación del modelo de nuestro robot 
         y guarda sus valores como elementos de las listas self.R y self.T, en orden
@@ -89,23 +117,3 @@ class MK2Robot:
             Z_pos[i] = np.round(self.pose[i][2, 3], 3)
 
         return [X_pos, Y_pos, Z_pos]
-
-    def execute(self, command=None, text=None):
-        if not command:
-            return
-        
-        if command not in self.command_action:
-            print("sorry no sé que tengo que hacer")
-            return
-
-        self.command_action[command]()
-        print(text)
-        
-    def move_right(self):
-        q_deg = np.multiply(self.q, 180 / np.pi)
-
-        self.update_pose(q_deg[0]-5, q_deg[1], q_deg[2])
-
-    def move_left(self):
-        q_deg = np.multiply(self.q, 180 / np.pi)
-        self.update_pose(q_deg[0]+5, q_deg[1], q_deg[2])
