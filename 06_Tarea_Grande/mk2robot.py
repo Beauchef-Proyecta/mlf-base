@@ -19,11 +19,13 @@ class MK2Robot:
 
         # Cada commando se asocia con un método de esta clase. Cada método ejecuta un tipo de movimiento
         self.command_action = {"3": self.move_right,
-                                "4": self.move_left}
+                                "4": self.move_left,
+                                "5": self.movimiento_que_debes_implementar}
 
         self.update_pose(MK2Robot.HOME_0, MK2Robot.HOME_1, MK2Robot.HOME_2)
 
-    """ ESTA ES LA PARTE NUEVA EN ESTA TAREA"""
+ 
+
     def execute(self, command=None, text=None):
         if not command:
             return
@@ -37,19 +39,20 @@ class MK2Robot:
         print(text)
         
     def move_left(self):
-        """ Toma la posición actual y gira 5 grados hacia la izquierda"""
-        q_deg = np.multiply(self.q, 180 / np.pi)
-        self.update_pose(q_deg[0]+5, q_deg[1], q_deg[2])
+        """ Toma la posición actual y gira 5 grados hacia la izquierda"""        
+        # IMPLEMENTAME
 
     def move_right(self):
-        """ Toma la posición actual y gira 5 grados hacia la derecha"""
-        q_deg = np.multiply(self.q, 180 / np.pi)
-        self.update_pose(q_deg[0]-5, q_deg[1], q_deg[2])
+        """ Toma la posición actual y gira 5 grados hacia la derecha"""    
+        # IMPLEMENTAME
+
+    ## Adicionalmente, debes implementar un movimiento adicional (como a ti te guste)
+    def movimiento_que_debes_implementar(self):
+        print("hago cositas jijijiji")
+        # IMPLEMENTAME
 
 
-    """ FIN DE LA PARTE NUEVA """
-
-
+    # De aquí en adelante es código de la tarea 2 :)
     def update_pose(self, q0, q1, q2):
         """
         Este metodo calcula la pose de cada link del robot, usando las matrices T y R. Luego guarda el
