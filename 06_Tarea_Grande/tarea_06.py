@@ -34,7 +34,7 @@ def main():
         # 2. Procesar
         detector.update_image(frame)
         detector.process_image()
-        shape = detector.whichFigure()
+        shape = detector.whichShape()
         
         # 3. Decidir
         command, text = manager.decide_what_to_do(shape)
