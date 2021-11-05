@@ -10,7 +10,7 @@ class ShapeDetector:
     def update_image(self, img):
         # Se actualiza la imagen para procesar; se reduce su dimensión, se pasa al espacio RGB y se refleja verticalmente
         self.img = cv2.resize(img, (360, 640))
-        self.img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB)
         self.img = cv2.flip(self.img, 2)
 
         # Se reinician las matrices auxiliares
